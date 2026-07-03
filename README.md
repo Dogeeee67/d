@@ -23,10 +23,12 @@ serverless funkcie. Treba to nahrať jedným z týchto dvoch spôsobov nižšie.
    - **Build command:** (nechaj prázdne)
    - **Publish directory:** `public`
 6. Klikni **Deploy**.
-7. Choď do **Site configuration → Environment variables** a pridaj:
-   - Key: `DISCORD_WEBHOOK_URL`
-   - Value: `https://discord.com/api/webhooks/1522341406344089600/xwnJrGgSkuUrJ_kMHtE--lC_WquJxepIdI0Tek1cOz9La3uyy0NOx6rrBfAYee27nPj_`
-8. **Deploys → Trigger deploy → Deploy site** (aby sa premenná prejavila).
+7. Choď do **Site configuration → Environment variables** a pridaj DVE premenné:
+   - Key: `DISCORD_WEBHOOK_URL` (objednávky zo skrytého shopu "Obľúbenci")
+     Value: `https://discord.com/api/webhooks/1522341406344089600/xwnJrGgSkuUrJ_kMHtE--lC_WquJxepIdI0Tek1cOz9La3uyy0NOx6rrBfAYee27nPj_`
+   - Key: `DISCORD_WEBHOOK_URL_PUBLIC` (objednávky z verejného cenníka — bežní ľudia)
+     Value: `https://discord.com/api/webhooks/1522417337947525230/u-0u0qoMcWn1yaOMPv05EuEG2klEzZUvqd-PVji5NVSk1Ag-WO2-3RR1kfQ7MMzFD1QX`
+8. **Deploys → Trigger deploy → Deploy site** (aby sa premenné prejavili).
 
 Od teraz — každý ďalší update stačí nahrať do GitHub repozitára a Netlify to automaticky znova nasadí.
 

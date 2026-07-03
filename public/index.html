@@ -664,14 +664,17 @@
         <div class="tier">
           <div class="eyebrow">Bez ničoho</div>
           <div class="price">150 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Bez ničoho', '150 000$', 'public')">Pridať do košíka</button>
         </div>
         <div class="tier">
           <div class="eyebrow">Materiál bez blueprintu</div>
           <div class="price">135 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Materiál bez blueprintu', '135 000$', 'public')">Pridať do košíka</button>
         </div>
         <div class="tier full">
           <div class="eyebrow">So všetkým</div>
           <div class="price">120 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'So všetkým', '120 000$', 'public')">Pridať do košíka</button>
         </div>
       </div>
     </div>
@@ -684,14 +687,17 @@
         <div class="tier">
           <div class="eyebrow">Bez ničoho</div>
           <div class="price">200 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Bez ničoho', '200 000$', 'public')">Pridať do košíka</button>
         </div>
         <div class="tier">
           <div class="eyebrow">Materiál bez blueprintu</div>
           <div class="price">175 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Materiál bez blueprintu', '175 000$', 'public')">Pridať do košíka</button>
         </div>
         <div class="tier full">
           <div class="eyebrow">So všetkým</div>
           <div class="price">160 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'So všetkým', '160 000$', 'public')">Pridať do košíka</button>
         </div>
       </div>
     </div>
@@ -789,19 +795,19 @@
           <div class="eyebrow">Holá zbraň</div>
           <div class="desc">Bez materiálu, bez blueprintu.</div>
           <div class="price">100 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Holá zbraň', '100 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Holá zbraň', '100 000$', 'hidden')">Pridať do košíka</button>
         </div>
         <div class="tier">
           <div class="eyebrow">S materiálom</div>
           <div class="desc">Materiál v cene, bez blueprintu.</div>
           <div class="price">75 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'S materiálom', '75 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'S materiálom', '75 000$', 'hidden')">Pridať do košíka</button>
         </div>
         <div class="tier full">
           <div class="eyebrow">Plná výbava</div>
           <div class="desc">Materiál + blueprint + tec doplnky.</div>
           <div class="price">60 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Plná výbava', '60 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Plná výbava', '60 000$', 'hidden')">Pridať do košíka</button>
         </div>
       </div>
     </div>
@@ -816,19 +822,19 @@
           <div class="eyebrow">Holá zbraň</div>
           <div class="desc">Bez materiálu, bez blueprintu.</div>
           <div class="price">160 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'Holá zbraň', '160 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Holá zbraň', '160 000$', 'hidden')">Pridať do košíka</button>
         </div>
         <div class="tier">
           <div class="eyebrow">S materiálom</div>
           <div class="desc">Materiál v cene, bez blueprintu.</div>
           <div class="price">130 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'S materiálom', '130 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'S materiálom', '130 000$', 'hidden')">Pridať do košíka</button>
         </div>
         <div class="tier full">
           <div class="eyebrow">Plná výbava</div>
           <div class="desc">Materiál + blueprint + tec doplnky.</div>
           <div class="price">115 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'Plná výbava', '115 000$')">Pridať do košíka</button>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Plná výbava', '115 000$', 'hidden')">Pridať do košíka</button>
         </div>
       </div>
     </div>
@@ -1013,7 +1019,7 @@
           '<div class="w-sub">' + o.tier + ' · ' + o.price + ' · ' + date + '</div>' +
           '<div class="w-sub"><span class="status-select ' + statusClass + '" style="cursor:default; display:inline-block; margin-top:4px;">' + statusLabel + '</span></div>' +
         '</div>' +
-        '<button class="reorder-btn" onclick="addToCart(\'' + escapeJs(o.weapon) + '\',\'' + escapeJs(o.tier) + '\',\'' + escapeJs(o.price) + '\')">Pridať do košíka</button>' +
+        '<button class="reorder-btn" onclick="addToCart(\'' + escapeJs(o.weapon) + '\',\'' + escapeJs(o.tier) + '\',\'' + escapeJs(o.price) + '\',\'' + escapeJs(o.source || 'hidden') + '\')">Pridať do košíka</button>' +
       '</div>';
     }).join('');
   }
@@ -1168,10 +1174,10 @@
     badge.classList.toggle('zero', cart.length === 0);
   }
 
-  function addToCart(weapon, tier, price){
+  function addToCart(weapon, tier, price, source){
     try{
       const cart = loadCart();
-      cart.push({ weapon: weapon, tier: tier, price: price });
+      cart.push({ weapon: weapon, tier: tier, price: price, source: source || 'hidden' });
       saveCart(cart);
       updateCartBadge();
     } catch(e){

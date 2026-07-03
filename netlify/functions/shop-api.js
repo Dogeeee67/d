@@ -53,8 +53,7 @@ async function saveAccounts(store, accounts) {
   await store.setJSON('accounts', accounts);
 }
 
-async function sendDiscordOrder(acc, items) {
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+async function sendDiscordMessage(webhookUrl, acc, items, titleSuffix) {
   if (!webhookUrl) return;
 
   let total = 0;
@@ -65,7 +64,7 @@ async function sendDiscordOrder(acc, items) {
 
   const payload = {
     embeds: [{
-      title: 'Nová objednávka (' + items.length + ' položiek)',
+      title: 'Nová objednávka' + (titleSuffix ? ' ' + titleSuffix : '') + ' (' + items.length + ' položiek)',
       description: lines.join('\n'),
       color: 12609074,
       fields: [
@@ -84,6 +83,23 @@ async function sendDiscordOrder(acc, items) {
     });
   } catch (e) {
     // Discord notifikácia je len bonus, objednávka je uložená aj tak
+  }
+}
+
+async function sendDiscordOrder(acc, items) {
+  // Rozdeľ položky podľa zdroja — verejný cenník (bežní ľudia) posiela na
+  // iný Discord kanál ako skrytý shop "Obľúbenci".
+  const publicItems = items.filter(function (i) { return i.source === 'public'; });
+  const hiddenItems = items.filter(function (i) { return i.source !== 'public'; });
+
+  const hiddenWebhook = process.env.DISCORD_WEBHOOK_URL;
+  const publicWebhook = process.env.DISCORD_WEBHOOK_URL_PUBLIC || hiddenWebhook;
+
+  if (hiddenItems.length > 0) {
+    await sendDiscordMessage(hiddenWebhook, acc, hiddenItems, '(Obľúbenci)');
+  }
+  if (publicItems.length > 0) {
+    await sendDiscordMessage(publicWebhook, acc, publicItems, '(Verejný cenník)');
   }
 }
 
@@ -164,6 +180,7 @@ exports.handler = async function (event) {
           weapon: String(item.weapon || '').slice(0, 120),
           tier: String(item.tier || '').slice(0, 120),
           price: String(item.price || '').slice(0, 50),
+          source: item.source === 'public' ? 'public' : 'hidden',
           date: now,
           status: 'nova'
         };
