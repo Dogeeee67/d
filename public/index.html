@@ -1169,10 +1169,15 @@
   }
 
   function addToCart(weapon, tier, price){
-    const cart = loadCart();
-    cart.push({ weapon: weapon, tier: tier, price: price });
-    saveCart(cart);
-    updateCartBadge();
+    try{
+      const cart = loadCart();
+      cart.push({ weapon: weapon, tier: tier, price: price });
+      saveCart(cart);
+      updateCartBadge();
+    } catch(e){
+      alert('Chyba pri pridávaní do košíka: ' + e.message);
+      console.error(e);
+    }
   }
 
   function removeFromCart(idx){
@@ -1227,10 +1232,6 @@
   function closeOrder(){
     document.getElementById('orderOverlay').classList.remove('open');
   }
-
-  document.getElementById('orderOverlay').addEventListener('click', function(e){
-    if(e.target === this) closeOrder();
-  });
 
   async function submitOrder(){
     const acc = currentAccount();
@@ -1288,8 +1289,19 @@
   document.getElementById('discordJoinBtn').href = "https://discord.gg/6YNvHhM8uY";
 
   // ---------- INIT ----------
-  updateCartBadge();
-  restoreSession().then(renderAccountState);
+  try{
+    updateCartBadge();
+  } catch(e){ console.error('updateCartBadge failed:', e); }
+
+  try{
+    document.getElementById('orderOverlay').addEventListener('click', function(e){
+      if(e.target === this) closeOrder();
+    });
+  } catch(e){ console.error('orderOverlay listener failed:', e); }
+
+  restoreSession().then(renderAccountState).catch(function(e){
+    console.error('restoreSession/renderAccountState failed:', e);
+  });
 </script>
 
 <!-- ===== MODAL: HESLO ===== -->
@@ -1373,10 +1385,12 @@
   function closeLockModal(){
     document.getElementById('lockOverlay').classList.remove('open');
   }
-  document.getElementById('lockOverlay').addEventListener('click', function(e){
-    if(e.target === this) closeLockModal();
-  });
-  document.getElementById('hiddenTrigger').addEventListener('click', openLockModal);
+  try{
+    document.getElementById('lockOverlay').addEventListener('click', function(e){
+      if(e.target === this) closeLockModal();
+    });
+    document.getElementById('hiddenTrigger').addEventListener('click', openLockModal);
+  } catch(e){ console.error('lock listeners failed:', e); }
 
   function checkShopPassword(){
     const val = document.getElementById('lockPasswordInput').value;
@@ -1391,7 +1405,9 @@
     }
   }
 
-  refreshVisibility();
+  try{
+    refreshVisibility();
+  } catch(e){ console.error('refreshVisibility failed:', e); }
 </script>
 
 </body>
