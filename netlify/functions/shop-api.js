@@ -31,6 +31,28 @@ function normKey(meno) {
   return (meno || '').trim().toLowerCase();
 }
 
+function getClientIp(event) {
+  const headers = event.headers || {};
+  return headers['x-nf-client-connection-ip']
+    || (headers['x-forwarded-for'] || '').split(',')[0].trim()
+    || 'unknown';
+}
+
+// Jednoduchý rate-limiter na strane servera — nedá sa obísť z prehliadača.
+// Vracia true = OK pokračovať, false = zamietnuť (príliš veľa požiadaviek).
+async function checkRateLimit(store, ip, action, maxRequests, windowMs) {
+  const key = 'rl_' + action + '_' + ip;
+  const now = Date.now();
+  let data;
+  try { data = await store.get(key, { type: 'json' }); } catch (e) { data = null; }
+  if (!data || (now - data.windowStart) > windowMs) {
+    data = { count: 0, windowStart: now };
+  }
+  data.count++;
+  await store.setJSON(key, data);
+  return data.count <= maxRequests;
+}
+
 function generateCode() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // bez mätúcich znakov (0/O, 1/I)
   let code = '';
@@ -110,19 +132,23 @@ async function sendDiscordSimpleMessage(webhookUrl, payload) {
 }
 
 async function sendDiscordOrder(acc, items) {
-  // Rozdeľ položky podľa zdroja — verejný cenník (bežní ľudia) posiela na
-  // iný Discord kanál ako skrytý shop "Obľúbenci".
-  const publicItems = items.filter(function (i) { return i.source === 'public' || i.source === 'cigarettes'; });
+  // Rozdeľ položky podľa zdroja — každá skupina ide na iný Discord kanál.
+  const cigaretteItems = items.filter(function (i) { return i.source === 'cigarettes'; });
+  const publicItems = items.filter(function (i) { return i.source === 'public'; });
   const hiddenItems = items.filter(function (i) { return i.source !== 'public' && i.source !== 'cigarettes'; });
 
   const hiddenWebhook = process.env.DISCORD_WEBHOOK_URL;
   const publicWebhook = process.env.DISCORD_WEBHOOK_URL_PUBLIC || hiddenWebhook;
+  const cigaretteWebhook = process.env.DISCORD_WEBHOOK_URL_CIGARETTES || publicWebhook;
 
   if (hiddenItems.length > 0) {
     await sendDiscordMessage(hiddenWebhook, acc, hiddenItems, '(Obľúbenci)');
   }
   if (publicItems.length > 0) {
     await sendDiscordMessage(publicWebhook, acc, publicItems, '(Verejný cenník)');
+  }
+  if (cigaretteItems.length > 0) {
+    await sendDiscordMessage(cigaretteWebhook, acc, cigaretteItems, '(Redwood Cigarettes)');
   }
 }
 
@@ -143,6 +169,24 @@ exports.handler = async function (event) {
 
   const store = getShopStore();
   const action = body.action;
+  const clientIp = getClientIp(event);
+
+  // Globálny limit — max 40 požiadaviek za minútu z jednej IP na celé API.
+  const globalOk = await checkRateLimit(store, clientIp, 'global', 40, 60 * 1000);
+  if (!globalOk) {
+    return json(429, { error: 'Príliš veľa požiadaviek. Skús to o chvíľu znova.' });
+  }
+
+  // Prísnejší limit na citlivé akcie (registrácia/prihlásenie/kódy) —
+  // bráni brute-force útokom aj spamu falošných účtov/objednávok.
+  const strictActions = { register: [6, 10 * 60 * 1000], login: [15, 5 * 60 * 1000], checkAccessCode: [15, 5 * 60 * 1000], addOrders: [8, 60 * 1000] };
+  if (strictActions[action]) {
+    const [maxReq, windowMs] = strictActions[action];
+    const strictOk = await checkRateLimit(store, clientIp, action, maxReq, windowMs);
+    if (!strictOk) {
+      return json(429, { error: 'Príliš veľa pokusov. Skús to o chvíľu znova.' });
+    }
+  }
 
   try {
     // ---------------- REGISTRÁCIA ----------------
@@ -150,6 +194,8 @@ exports.handler = async function (event) {
       const meno = (body.meno || '').trim();
       const heslo = body.heslo || '';
       if (!meno || !heslo) return json(400, { error: 'Vyplň meno aj heslo.' });
+      if (heslo.length < 4) return json(400, { error: 'Heslo musí mať aspoň 4 znaky.' });
+      if (meno.length > 60) return json(400, { error: 'Meno je príliš dlhé.' });
 
       const accounts = await loadAccounts(store);
       const key = normKey(meno);
@@ -196,6 +242,13 @@ exports.handler = async function (event) {
       const acc = accounts[key];
       if (!acc || acc.heslo !== heslo) return json(401, { error: 'Nie si prihlásený.' });
       if (items.length === 0) return json(400, { error: 'Košík je prázdny.' });
+      if (items.length > 30) return json(400, { error: 'Príliš veľa položiek naraz.' });
+
+      // Cooldown viazaný na účet (nie len na IP) — max 1 objednávka za 20s.
+      const lastOrder = acc.orders && acc.orders.length > 0 ? acc.orders[acc.orders.length - 1] : null;
+      if (lastOrder && (Date.now() - new Date(lastOrder.date).getTime()) < 20 * 1000) {
+        return json(429, { error: 'Počkaj ešte pár sekúnd pred ďalšou objednávkou.' });
+      }
 
       const now = new Date().toISOString();
       const cleanItems = items.map(function (item) {
@@ -214,6 +267,31 @@ exports.handler = async function (event) {
       await sendDiscordOrder(acc, cleanItems);
 
       return json(200, { ok: true, orders: acc.orders });
+    }
+
+    // ---------------- ADMIN: NAHLÁSIŤ MOŽNÝ LEAK STRÁNKY ----------------
+    if (action === 'reportLeak') {
+      const meno = (body.meno || '').trim();
+      const heslo = body.heslo || '';
+      if (!isOwner(meno, heslo)) return json(403, { error: 'Nemáš admin práva.' });
+
+      const note = String(body.note || '').trim().slice(0, 500);
+      const leakWebhook = process.env.DISCORD_WEBHOOK_URL_PANIC;
+
+      await sendDiscordSimpleMessage(leakWebhook, {
+        content: '@everyone',
+        embeds: [{
+          title: '🚨 PROBLÉM MOŽNÝ — stránka mohla uniknúť (leak)',
+          description: note || 'Nahlásené bez dodatočnej poznámky.',
+          color: 8060977,
+          fields: [
+            { name: 'Nahlásil', value: meno, inline: true },
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      });
+
+      return json(200, { ok: true });
     }
 
     // ---------------- ADMIN: VŠETKY ÚČTY + OBJEDNÁVKY ----------------

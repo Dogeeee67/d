@@ -645,6 +645,7 @@
   </div>
   <a class="discord-cta" href="#" id="discordJoinBtn" target="_blank" rel="noopener">⬡ Pripojiť sa na Discord</a>
   <button class="cart-cta" id="cartBtn" onclick="openCart()">🛒 Košík <span class="cart-count zero" id="cartCount">0</span></button>
+  <button class="cart-cta" id="myOrdersBtn" onclick="openMyOrders()">📋 Moje objednávky</button>
 </header>
 
 <div id="publicPricelist">
@@ -698,6 +699,135 @@
   </div>
 </main>
 </div><!-- /publicPricelist -->
+
+<div id="lockedNotice" style="display:none;"></div>
+
+<div id="cennikContent" style="display:none;">
+
+<div class="section-label"><span>CENNÍK</span><div class="line"></div></div>
+<div style="padding:0 6vw; margin-top:14px;">
+  <a class="discord-cta" href="https://discord.gg/6YNvHhM8uY" target="_blank" rel="noopener">⬡ Pripojiť sa na Discord (zbrane)</a>
+</div>
+
+<main>
+  <div class="catalog">
+
+    <div class="item" data-code="DEAGLE">
+      <div class="item-head">
+        <h2>Deagle</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">150 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Bez ničoho', '150 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">135 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Materiál bez blueprintu', '135 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">120 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'So všetkým', '120 000$', 'public')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="TEC">
+      <div class="item-head">
+        <h2>Tec</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">200 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Bez ničoho', '200 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">175 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Materiál bez blueprintu', '175 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">160 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'So všetkým', '160 000$', 'public')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</div><!-- /cennikContent -->
+
+<div id="oblubenciContent" style="display:none;">
+
+<div class="section-label"><span>OBĽÚBENCI</span><div class="line"></div></div>
+
+<main>
+  <div class="catalog">
+
+    <div class="item" data-code="ZB-01 / RUČNÁ ZBRAŇ">
+      <div class="item-head">
+        <h2>Desert Eagle</h2>
+        <div class="tagline">ťažká pištoľ · vysoká zastavovacia sila</div>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Holá zbraň</div>
+          <div class="desc">Bez materiálu, bez blueprintu.</div>
+          <div class="price">100 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Holá zbraň', '100 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">S materiálom</div>
+          <div class="desc">Materiál v cene, bez blueprintu.</div>
+          <div class="price">75 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'S materiálom', '75 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">Plná výbava</div>
+          <div class="desc">Materiál + blueprint + tec doplnky.</div>
+          <div class="price">60 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Plná výbava', '60 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="ZB-02 / RUČNÁ ZBRAŇ">
+      <div class="item-head">
+        <h2>TEC-9</h2>
+        <div class="tagline">samopal · rýchla paľba, kompaktné telo</div>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Holá zbraň</div>
+          <div class="desc">Bez materiálu, bez blueprintu.</div>
+          <div class="price">160 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Holá zbraň', '160 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">S materiálom</div>
+          <div class="desc">Materiál v cene, bez blueprintu.</div>
+          <div class="price">130 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'S materiálom', '130 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">Plná výbava</div>
+          <div class="desc">Materiál + blueprint + tec doplnky.</div>
+          <div class="price">115 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Plná výbava', '115 000$', 'hidden')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</div><!-- /oblubenciContent -->
 
 <div class="section-label"><span>ÚČET</span><div class="line"></div></div>
 
@@ -787,137 +917,22 @@
         </details>
 
         <button class="logout-btn" style="margin-top:16px;" onclick="wipeAllAccounts()">🗑 Vymazať všetky účty</button>
+
+        <details class="folder" style="margin-top:20px; border-color:var(--danger);">
+          <summary style="color:var(--rust);">🚨 Nahlásiť možný leak stránky</summary>
+          <div class="folder-body">
+            <div class="account-hint" style="margin-top:0;">Pošle okamžitú výstrahu na Discord, že sa stránka mohla dostať do nesprávnych rúk.</div>
+            <label for="leakNoteInput" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:14px;">Poznámka (nepovinné)</label>
+            <input type="text" id="leakNoteInput" placeholder="napr. odkaz sa objavil v cudzom Discorde" style="width:100%; padding:10px 12px; background:var(--bg); border:1px solid var(--line); color:var(--text); font-family:'Barlow Condensed', sans-serif; font-size:16px;">
+            <button class="logout-btn" style="margin-top:14px;" onclick="reportLeak()">🚨 Nahlásiť leak teraz</button>
+          </div>
+        </details>
       </div>
     </div>
 
   </div>
 </div>
 
-<div id="lockedNotice" style="display:none;"></div>
-
-<div id="oblubenciContent" style="display:none;">
-
-<div class="section-label"><span>OBĽÚBENCI</span><div class="line"></div></div>
-
-<main>
-  <div class="catalog">
-
-    <div class="item" data-code="ZB-01 / RUČNÁ ZBRAŇ">
-      <div class="item-head">
-        <h2>Desert Eagle</h2>
-        <div class="tagline">ťažká pištoľ · vysoká zastavovacia sila</div>
-      </div>
-      <div class="tiers">
-        <div class="tier">
-          <div class="eyebrow">Holá zbraň</div>
-          <div class="desc">Bez materiálu, bez blueprintu.</div>
-          <div class="price">100 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Holá zbraň', '100 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-        <div class="tier">
-          <div class="eyebrow">S materiálom</div>
-          <div class="desc">Materiál v cene, bez blueprintu.</div>
-          <div class="price">75 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'S materiálom', '75 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">Plná výbava</div>
-          <div class="desc">Materiál + blueprint + tec doplnky.</div>
-          <div class="price">60 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Plná výbava', '60 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="item" data-code="ZB-02 / RUČNÁ ZBRAŇ">
-      <div class="item-head">
-        <h2>TEC-9</h2>
-        <div class="tagline">samopal · rýchla paľba, kompaktné telo</div>
-      </div>
-      <div class="tiers">
-        <div class="tier">
-          <div class="eyebrow">Holá zbraň</div>
-          <div class="desc">Bez materiálu, bez blueprintu.</div>
-          <div class="price">160 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'Holá zbraň', '160 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-        <div class="tier">
-          <div class="eyebrow">S materiálom</div>
-          <div class="desc">Materiál v cene, bez blueprintu.</div>
-          <div class="price">130 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'S materiálom', '130 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">Plná výbava</div>
-          <div class="desc">Materiál + blueprint + tec doplnky.</div>
-          <div class="price">115 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('TEC-9', 'Plná výbava', '115 000$', 'hidden')">Pridať do košíka</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-</div><!-- /oblubenciContent -->
-
-<div id="cennikContent" style="display:none;">
-
-<div class="section-label"><span>CENNÍK</span><div class="line"></div></div>
-
-<main>
-  <div class="catalog">
-
-    <div class="item" data-code="DEAGLE">
-      <div class="item-head">
-        <h2>Deagle</h2>
-      </div>
-      <div class="tiers">
-        <div class="tier">
-          <div class="eyebrow">Bez ničoho</div>
-          <div class="price">150 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'Bez ničoho', '150 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier">
-          <div class="eyebrow">Materiál bez blueprintu</div>
-          <div class="price">135 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'Materiál bez blueprintu', '135 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">So všetkým</div>
-          <div class="price">120 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'So všetkým', '120 000$', 'public')">Pridať do košíka</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="item" data-code="TEC">
-      <div class="item-head">
-        <h2>Tec</h2>
-      </div>
-      <div class="tiers">
-        <div class="tier">
-          <div class="eyebrow">Bez ničoho</div>
-          <div class="price">200 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'Bez ničoho', '200 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier">
-          <div class="eyebrow">Materiál bez blueprintu</div>
-          <div class="price">175 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'Materiál bez blueprintu', '175 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">So všetkým</div>
-          <div class="price">160 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'So všetkým', '160 000$', 'public')">Pridať do košíka</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-</div><!-- /cennikContent -->
 
 
 <footer>
@@ -940,6 +955,16 @@
 
     <button class="submit-btn" id="submitOrderBtn" onclick="submitOrder()">Potvrdiť objednávku</button>
     <div class="status-msg" id="orderStatus"></div>
+  </div>
+</div>
+
+<!-- ===== MODAL: MOJE OBJEDNÁVKY ===== -->
+<div class="modal-overlay" id="myOrdersOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeMyOrders()">×</button>
+    <h3>Moje objednávky</h3>
+    <div class="modal-sub">História a stav tvojich objednávok</div>
+    <div id="myOrdersList" style="margin-top:16px;"></div>
   </div>
 </div>
 
@@ -1088,16 +1113,21 @@
 
   function renderOrders(){
     const acc = currentAccount();
+    const html = buildOrdersHtml(acc);
     const list = document.getElementById('ordersList');
+    if(list) list.innerHTML = html;
+    const modalList = document.getElementById('myOrdersList');
+    if(modalList) modalList.innerHTML = html;
+  }
+
+  function buildOrdersHtml(acc){
     if(!acc){
-      list.innerHTML = '<div class="orders-empty">Prihlás sa a objednaj — história sa zobrazí tu.</div>';
-      return;
+      return '<div class="orders-empty">Prihlás sa a objednaj — história sa zobrazí tu.</div>';
     }
     if(!acc.orders || acc.orders.length === 0){
-      list.innerHTML = '<div class="orders-empty">Zatiaľ žiadne objednávky.</div>';
-      return;
+      return '<div class="orders-empty">Zatiaľ žiadne objednávky.</div>';
     }
-    list.innerHTML = acc.orders.slice().reverse().map(function(o){
+    return acc.orders.slice().reverse().map(function(o){
       const date = new Date(o.date).toLocaleString('sk-SK');
       const status = o.status || 'nova';
       const statusLabel = status === 'pracuje' ? 'Pracuje sa na tom' : (status === 'vybavene' ? 'Vybavené' : 'Nová');
@@ -1111,6 +1141,14 @@
         '<button class="reorder-btn" onclick="addToCart(\'' + escapeJs(o.weapon) + '\',\'' + escapeJs(o.tier) + '\',\'' + escapeJs(o.price) + '\',\'' + escapeJs(o.source || 'hidden') + '\')">Pridať do košíka</button>' +
       '</div>';
     }).join('');
+  }
+
+  function openMyOrders(){
+    renderOrders();
+    document.getElementById('myOrdersOverlay').classList.add('open');
+  }
+  function closeMyOrders(){
+    document.getElementById('myOrdersOverlay').classList.remove('open');
   }
 
   async function renderAdminOrders(){
@@ -1283,6 +1321,20 @@
     }
   }
 
+  async function reportLeak(){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    const note = document.getElementById('leakNoteInput').value.trim();
+    if(!confirm('Naozaj poslať výstrahu o možnom leaku stránky na Discord?')) return;
+    try{
+      await api('reportLeak', { meno: acc.meno, heslo: acc.heslo, note: note });
+      document.getElementById('leakNoteInput').value = '';
+      alert('Výstraha odoslaná.');
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
   async function wipeAllAccounts(){
     const acc = currentAccount();
     if(!acc || !acc.isOwner) return;
@@ -1435,7 +1487,7 @@
   }
 
   // ---------- DISCORD POZVÁNKA ----------
-  document.getElementById('discordJoinBtn').href = "https://discord.gg/6YNvHhM8uY";
+  document.getElementById('discordJoinBtn').href = "https://discord.gg/PQ3Aq33yaY";
 
   // ---------- INIT ----------
   try{
@@ -1445,6 +1497,9 @@
   try{
     document.getElementById('orderOverlay').addEventListener('click', function(e){
       if(e.target === this) closeOrder();
+    });
+    document.getElementById('myOrdersOverlay').addEventListener('click', function(e){
+      if(e.target === this) closeMyOrders();
     });
   } catch(e){ console.error('orderOverlay listener failed:', e); }
 
@@ -1480,9 +1535,12 @@
     const cennik = document.getElementById('cennikContent');
     const elite = document.getElementById('oblubenciContent');
 
+    const acc = (typeof currentAccount === 'function') ? currentAccount() : null;
+    const ownerLoggedIn = acc && acc.isOwner;
+
     locked.style.display = 'none';
-    cennik.style.display = cennikUnlocked ? 'block' : 'none';
-    elite.style.display = eliteUnlocked ? 'block' : 'none';
+    cennik.style.display = (ownerLoggedIn || cennikUnlocked) ? 'block' : 'none';
+    elite.style.display = (ownerLoggedIn || eliteUnlocked) ? 'block' : 'none';
   }
 
   function openLockModal(target){

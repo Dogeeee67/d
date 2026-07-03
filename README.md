@@ -30,6 +30,10 @@ serverless funkcie. Treba to nahrať jedným z týchto dvoch spôsobov nižšie.
      Value: `https://discord.com/api/webhooks/1522417337947525230/u-0u0qoMcWn1yaOMPv05EuEG2klEzZUvqd-PVji5NVSk1Ag-WO2-3RR1kfQ7MMzFD1QX`
    - Key: `DISCORD_WEBHOOK_URL_CODES` (notifikácia keď admin vygeneruje nový vstupný kód)
      Value: `https://discord.com/api/webhooks/1522633780962267277/nKg7N_Q5LInJgHEAn-rXE4N69L5jWnsSFevsLMr_OmH8RVSDkYjJoCHq0lWpV_8H62VM`
+   - Key: `DISCORD_WEBHOOK_URL_CIGARETTES` (objednávky z Redwood Cigarettes)
+     Value: `https://discord.com/api/webhooks/1522640729065918608/MNdlVEpyn-zH2UX8pPDgG03weOPsnscFqrCtaPGz4RC3gOxmnNY0pnlVJT3OD8p8TfWq`
+   - Key: `DISCORD_WEBHOOK_URL_PANIC` (panic tlačidlo — nahlásenie možného leaku stránky)
+     Value: `https://discord.com/api/webhooks/1522641936480211133/u33Uqmn9aaeJCbREHSveqdUVJTBq2q7Dfl8DW-sAmZnN442O8kFDvjaXSmAGf73s3JH5`
 8. **Deploys → Trigger deploy → Deploy site** (aby sa premenné prejavili).
 
 Od teraz — každý ďalší update stačí nahrať do GitHub repozitára a Netlify to automaticky znova nasadí.
