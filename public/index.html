@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ČIERNY TRH — Zbrojnica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c0e0a;
+    --bg-panel: #14170f;
+    --line: #2a2e22;
+    --olive: #4d5a3a;
+    --olive-dim: #333c28;
+    --rust: #c1602e;
+    --amber: #c99a3a;
+    --text: #e6e2d3;
+    --text-dim: #8b9078;
+    --danger: #8a2b20;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px),
+      var(--bg);
+    color:var(--text);
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:17px;
+    line-height:1.5;
+  }
+  .stencil{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ===== HEADER / CRATE STRIP ===== */
+  header{
+    position:relative;
+    padding:70px 6vw 60px;
+    border-bottom:3px solid var(--olive);
+    overflow:hidden;
+  }
+  header::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(90deg, var(--olive-dim) 0 2px, transparent 2px 90px);
+    opacity:0.35;
+    pointer-events:none;
+  }
+  .crate-tag{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; letter-spacing:0.15em;
+    color:var(--amber);
+    border:1px solid var(--olive);
+    padding:6px 14px;
+    background:rgba(77,90,58,0.08);
+  }
+  .crate-tag::before{ content:"●"; color:var(--rust); font-size:10px; }
+  h1.brand{
+    margin-top:26px;
+    font-size:clamp(52px, 9vw, 108px);
+    font-weight:700;
+    line-height:0.92;
+    color:var(--text);
+    text-shadow: 3px 3px 0 var(--danger);
+    max-width:16ch;
+  }
+  h1.brand span{ color:var(--olive); text-shadow:none; -webkit-text-stroke:1px var(--olive); }
+  .sub{
+    margin-top:22px;
+    max-width:56ch;
+    color:var(--text-dim);
+    font-size:19px;
+  }
+  .stamp-row{
+    margin-top:40px;
+    display:flex; gap:28px; flex-wrap:wrap;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    letter-spacing:0.08em;
+  }
+  .stamp-row b{ color:var(--amber); }
+
+  /* ===== SECTION LABEL ===== */
+  .section-label{
+    padding:0 6vw;
+    margin-top:70px;
+    display:flex; align-items:center; gap:16px;
+  }
+  .section-label .line{ flex:1; height:1px; background:var(--line); }
+  .section-label span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; letter-spacing:0.2em;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+
+  /* ===== CATALOG ===== */
+  main{ padding:24px 6vw 100px; }
+  .catalog{
+    display:flex; flex-direction:column; gap:2px;
+    margin-top:24px;
+  }
+  .item{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    padding:36px clamp(20px,3vw,44px);
+    position:relative;
+  }
+  .item::before{
+    content: attr(data-code);
+    position:absolute; top:18px; right:22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--olive);
+    letter-spacing:0.1em;
+  }
+  .item-head{
+    display:flex; align-items:baseline; gap:18px; flex-wrap:wrap;
+  }
+  .item-head h2{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:clamp(30px,4vw,44px);
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .item-head .tagline{
+    color:var(--text-dim);
+    font-size:16px;
+    letter-spacing:0.04em;
+  }
+  .tiers{
+    margin-top:28px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:14px;
+  }
+  .tier{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.012);
+    padding:20px 20px 22px;
+    position:relative;
+    transition:border-color 0.15s ease, transform 0.15s ease;
+  }
+  .tier:hover{ border-color:var(--olive); transform:translateY(-2px); }
+  .tier.full{ border-color:var(--rust); background:rgba(193,96,46,0.06); }
+  .tier .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .tier.full .eyebrow{ color:var(--rust); }
+  .tier .desc{
+    margin-top:10px;
+    font-size:16px;
+    color:var(--text);
+    min-height:44px;
+  }
+  .tier .price{
+    margin-top:16px;
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:30px;
+    color:var(--amber);
+    letter-spacing:0.01em;
+  }
+  .tier.full .price{ color:var(--rust); }
+  .tier .price sup{ font-size:14px; color:var(--text-dim); font-weight:400; margin-left:4px; }
+
+  /* ===== FOOTER NOTE ===== */
+  footer{
+    padding:40px 6vw 60px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    letter-spacing:0.06em;
+  }
+
+  /* ===== ORDER BUTTON ===== */
+  .tier .order-btn{
+    margin-top:18px;
+    width:100%;
+    padding:11px 14px;
+    background:transparent;
+    border:1px solid var(--olive);
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .tier .order-btn:hover{ background:var(--olive); }
+  .tier.full .order-btn{ border-color:var(--rust); }
+  .tier.full .order-btn:hover{ background:var(--rust); }
+
+  .discord-cta{
+    margin-top:26px;
+    display:inline-flex; align-items:center; gap:10px;
+    padding:12px 20px;
+    background:transparent;
+    border:1px solid var(--amber);
+    color:var(--amber);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .discord-cta:hover{ background:var(--amber); color:#14170f; }
+
+  .cart-cta{
+    margin-top:26px;
+    margin-left:12px;
+    display:inline-flex; align-items:center; gap:10px;
+    padding:12px 20px;
+    background:transparent;
+    border:1px solid var(--olive);
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .cart-cta:hover{ background:var(--olive); }
+  .cart-cta .cart-count{
+    background:var(--rust);
+    color:var(--text);
+    border-radius:50%;
+    min-width:20px; height:20px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:11px;
+    padding:0 5px;
+  }
+  .cart-cta .cart-count.zero{ display:none; }
+
+  .cart-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+  }
+  .cart-row:first-of-type{ border-top:none; }
+  .cart-row .meta .w-name{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:17px;
+    font-weight:600;
+  }
+  .cart-row .meta .w-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:2px;
+  }
+  .cart-row .remove-btn{
+    background:none; border:none;
+    color:var(--rust);
+    font-size:20px;
+    cursor:pointer;
+    line-height:1;
+    padding:4px 8px;
+  }
+  .cart-row .remove-btn:hover{ color:var(--text); }
+  .cart-total{
+    display:flex; justify-content:space-between;
+    padding-top:18px; margin-top:6px;
+    border-top:1px solid var(--olive);
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--amber);
+  }
+
+  /* ===== MODAL ===== */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(6,7,4,0.82);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:20px;
+    z-index:100;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    width:100%; max-width:440px;
+    background:var(--bg-panel);
+    border:1px solid var(--olive);
+    padding:32px 28px 28px;
+    position:relative;
+  }
+  .modal::before{
+    content:"OBJEDNÁVKA";
+    position:absolute; top:-11px; left:26px;
+    background:var(--bg-panel);
+    padding:0 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.15em;
+    color:var(--amber);
+  }
+  .modal-close{
+    position:absolute; top:14px; right:16px;
+    background:none; border:none;
+    color:var(--text-dim);
+    font-size:22px;
+    cursor:pointer;
+    line-height:1;
+  }
+  .modal-close:hover{ color:var(--text); }
+  .modal h3{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:26px;
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .modal .modal-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    letter-spacing:0.06em;
+    margin-bottom:22px;
+  }
+  .modal label{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:6px;
+    margin-top:16px;
+  }
+  .modal input{
+    width:100%;
+    padding:11px 12px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:16px;
+  }
+  .modal input:focus{ outline:none; border-color:var(--amber); }
+  .modal .submit-btn{
+    margin-top:24px;
+    width:100%;
+    padding:13px 14px;
+    background:var(--olive);
+    border:none;
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .modal .submit-btn:hover{ background:var(--rust); }
+  .modal .submit-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+  .modal .status-msg{
+    margin-top:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    display:none;
+  }
+  .modal .status-msg.ok{ display:block; color:#7fae5c; }
+  .modal .status-msg.err{ display:block; color:var(--rust); }
+
+  /* ===== ACCOUNT SECTION ===== */
+  .account-wrap{
+    padding:24px 6vw 100px;
+  }
+  .account-grid{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:minmax(280px, 380px) 1fr;
+    gap:2px;
+  }
+  .account-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    padding:32px clamp(20px,3vw,40px);
+  }
+  .auth-toggle{
+    display:flex; gap:2px;
+    margin-bottom:24px;
+  }
+  .auth-toggle button{
+    flex:1;
+    padding:10px;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .auth-toggle button.active{
+    border-color:var(--amber);
+    color:var(--amber);
+    background:rgba(201,154,58,0.08);
+  }
+  .account-panel label{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:6px;
+    margin-top:16px;
+  }
+  .account-panel label:first-of-type{ margin-top:0; }
+  .account-panel input{
+    width:100%;
+    padding:11px 12px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:16px;
+  }
+  .account-panel input:focus{ outline:none; border-color:var(--amber); }
+  .account-panel .auth-submit{
+    margin-top:22px;
+    width:100%;
+    padding:13px 14px;
+    background:var(--olive);
+    border:none;
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .account-panel .auth-submit:hover{ background:var(--rust); }
+  .account-panel .auth-msg{
+    margin-top:12px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    display:none;
+  }
+  .account-panel .auth-msg.ok{ display:block; color:#7fae5c; }
+  .account-panel .auth-msg.err{ display:block; color:var(--rust); }
+
+  .account-loggedin{ display:none; }
+  .account-loggedin.show{ display:block; }
+  .account-loggedin .who{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    letter-spacing:0.05em;
+  }
+  .account-loggedin .who b{ color:var(--amber); }
+  .account-loggedin .logout-btn{
+    margin-top:20px;
+    width:100%;
+    padding:11px 14px;
+    background:transparent;
+    border:1px solid var(--rust);
+    color:var(--rust);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .account-loggedin .logout-btn:hover{ background:var(--rust); color:var(--text); }
+
+  .orders-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    padding:32px clamp(20px,3vw,40px);
+  }
+  .orders-panel h3{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .order-row{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    gap:12px;
+    padding:16px 0;
+    border-top:1px solid var(--line);
+  }
+  .order-row:first-of-type{ border-top:none; }
+  .order-row .meta .w-name{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:18px;
+    font-weight:600;
+  }
+  .order-row .meta .w-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+  .order-row .reorder-btn{
+    padding:9px 16px;
+    background:transparent;
+    border:1px solid var(--olive);
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .order-row .reorder-btn:hover{ background:var(--olive); }
+  .orders-empty{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .account-hint{
+    margin-top:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-dim);
+    letter-spacing:0.04em;
+    line-height:1.6;
+  }
+
+  /* ===== ADMIN FOLDERS ===== */
+  .folder{
+    border:1px solid var(--line);
+    margin-bottom:10px;
+    background:rgba(255,255,255,0.012);
+  }
+  .folder > summary{
+    padding:14px 18px;
+    cursor:pointer;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--amber);
+    list-style:none;
+    display:flex; align-items:center; gap:10px;
+  }
+  .folder > summary::-webkit-details-marker{ display:none; }
+  .folder > summary::before{ content:"▸"; color:var(--olive); transition:transform 0.15s ease; }
+  .folder[open] > summary::before{ content:"▾"; }
+  .folder .folder-body{
+    padding:6px 18px 16px;
+    border-top:1px solid var(--line);
+  }
+  .folder .sub-folder{
+    border:1px solid var(--line);
+    margin:10px 0;
+    background:rgba(0,0,0,0.15);
+  }
+  .folder .sub-folder > summary{
+    padding:10px 14px;
+    font-size:12px;
+    color:var(--text);
+  }
+  .folder .sub-folder > summary::before{ content:"▸"; }
+  .folder .sub-folder[open] > summary::before{ content:"▾"; }
+  .cred-row{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    padding:10px 0;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+  }
+  .cred-row:first-of-type{ border-top:none; }
+  .cred-row .cred-user{ color:var(--text); }
+  .cred-row .cred-pass{ color:var(--rust); }
+  .sub-order-row{
+    padding:10px 14px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  .sub-order-row:first-of-type{ border-top:none; }
+  .sub-order-row .w-name{ color:var(--text); font-weight:600; }
+  .sub-order-row .order-actions{ display:flex; align-items:center; gap:8px; }
+  .status-select{
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    padding:6px 8px;
+    cursor:pointer;
+  }
+  .status-select.st-nova{ border-color:var(--line); color:var(--text-dim); }
+  .status-select.st-pracuje{ border-color:var(--amber); color:var(--amber); }
+  .status-select.st-vybavene{ border-color:#7fae5c; color:#7fae5c; }
+  .order-del-btn{
+    background:none; border:none;
+    color:var(--rust);
+    font-size:18px;
+    cursor:pointer;
+    line-height:1;
+    padding:2px 6px;
+  }
+  .order-del-btn:hover{ color:var(--text); }
+
+  @media (max-width:800px){
+    .account-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (max-width:640px){
+    header{ padding:50px 5vw 40px; }
+    .section-label{ padding:0 5vw; }
+    main{ padding:20px 5vw 70px; }
+    .item::before{ position:static; display:block; margin-bottom:10px; }
+    .item-head{ flex-direction:column; align-items:flex-start; gap:6px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="crate-tag">SKLAD PRÍSTUPNÝ · IBA NA POZVANIE</div>
+  <h1 class="brand">ČIERNY <span>TR<span id="hiddenTrigger" style="cursor:default;">H</span></span></h1>
+  <p class="sub">Ceny za kus. Vyber si výbavu — od holej zbrane až po plnú konfiguráciu s doplnkami. Doprava sa rieši osobne, žiadne otázky navyše.</p>
+  <div class="stamp-row">
+    <div>STAV: <b>DOSTUPNÉ</b></div>
+    <div>PLATBA: <b>PRI ODOVZDANÍ</b></div>
+  </div>
+  <a class="discord-cta" href="#" id="discordJoinBtn" target="_blank" rel="noopener">⬡ Pripojiť sa na Discord</a>
+  <button class="cart-cta" id="cartBtn" onclick="openCart()">🛒 Košík <span class="cart-count zero" id="cartCount">0</span></button>
+</header>
+
+<div id="publicPricelist">
+<div class="section-label"><span>CENNÍK</span><div class="line"></div></div>
+<div style="padding:0 6vw; margin-top:14px; display:none;" id="backToShopWrap">
+  <button class="order-btn" style="max-width:280px; border-color:var(--amber); color:var(--amber);" onclick="showShopView()">↩ Späť do obchodu</button>
+</div>
+
+<main style="padding-bottom:20px;">
+  <div class="catalog">
+
+    <div class="item" data-code="DEAGLE">
+      <div class="item-head">
+        <h2>Deagle</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">150 000<sup>$</sup></div>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">135 000<sup>$</sup></div>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">120 000<sup>$</sup></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="TEC">
+      <div class="item-head">
+        <h2>Tec</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">200 000<sup>$</sup></div>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">175 000<sup>$</sup></div>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">160 000<sup>$</sup></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+</div><!-- /publicPricelist -->
+
+<div class="section-label"><span>ÚČET</span><div class="line"></div></div>
+
+<div class="account-wrap">
+  <div class="account-grid">
+
+    <div class="account-panel">
+      <div id="authForms">
+        <div class="auth-toggle">
+          <button id="tabLogin" class="active" onclick="switchAuthTab('login')">Prihlásiť sa</button>
+          <button id="tabRegister" onclick="switchAuthTab('register')">Registrovať</button>
+        </div>
+
+        <div id="loginForm">
+          <label for="loginMeno">Meno a priezvisko (RP)</label>
+          <input type="text" id="loginMeno" placeholder="napr. John Doe" autocomplete="off">
+          <label for="loginHeslo">Heslo</label>
+          <input type="password" id="loginHeslo" autocomplete="off">
+          <button class="auth-submit" onclick="doLogin()">Prihlásiť sa</button>
+        </div>
+
+        <div id="registerForm" style="display:none;">
+          <label for="regMeno">Meno a priezvisko (RP)</label>
+          <input type="text" id="regMeno" placeholder="napr. John Doe" autocomplete="off">
+          <label for="regHeslo">Heslo</label>
+          <input type="password" id="regHeslo" autocomplete="off">
+          <button class="auth-submit" onclick="doRegister()">Vytvoriť účet</button>
+        </div>
+
+        <div class="auth-msg" id="authMsg"></div>
+        <div class="account-hint">Účet sa ukladá v tomto prehliadači. Pri zmene zariadenia alebo vymazaní dát prehliadača sa história objednávok stratí.</div>
+      </div>
+
+      <div class="account-loggedin" id="loggedInBox">
+        <div class="who">Prihlásený ako <b id="whoMeno"></b></div>
+        <button class="logout-btn" onclick="doLogout()">Odhlásiť sa</button>
+      </div>
+    </div>
+
+    <div class="orders-panel">
+      <h3>Moje objednávky</h3>
+      <div id="ordersList">
+        <div class="orders-empty">Prihlás sa a objednaj — história sa zobrazí tu.</div>
+      </div>
+
+      <div id="adminPanel" style="display:none; margin-top:36px; padding-top:28px; border-top:1px solid var(--line);">
+        <h3>⬡ Admin</h3>
+        <div class="account-hint" style="margin-top:-8px; margin-bottom:18px;">Dáta uložené v tomto prehliadači. Účty/objednávky z iných zariadení vidíš len na Discorde.</div>
+
+        <details class="folder">
+          <summary>📁 Heslá</summary>
+          <div class="folder-body" id="adminPasswordsList"></div>
+        </details>
+
+        <details class="folder">
+          <summary>📁 Objednávky</summary>
+          <div class="folder-body" id="adminOrdersList"></div>
+        </details>
+
+        <button class="logout-btn" style="margin-top:16px;" onclick="wipeAllAccounts()">🗑 Vymazať všetky účty</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="lockedNotice" style="padding:60px 6vw; text-align:center; font-family:'JetBrains Mono', monospace; color:var(--text-dim); font-size:13px; letter-spacing:0.08em;">
+  ZAMKNUTÉ
+</div>
+
+<div id="shopContent" style="display:none;">
+
+<div class="section-label"><span>OBĽÚBENCI</span><div class="line"></div></div>
+<div style="padding:0 6vw; margin-top:14px;" id="viewPublicWrap">
+  <button class="order-btn" style="max-width:280px;" onclick="showPublicView()">📋 Porovnať s verejným cenníkom</button>
+</div>
+
+<main>
+  <div class="catalog">
+
+    <div class="item" data-code="ZB-01 / RUČNÁ ZBRAŇ">
+      <div class="item-head">
+        <h2>Desert Eagle</h2>
+        <div class="tagline">ťažká pištoľ · vysoká zastavovacia sila</div>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Holá zbraň</div>
+          <div class="desc">Bez materiálu, bez blueprintu.</div>
+          <div class="price">100 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Holá zbraň', '100 000$')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">S materiálom</div>
+          <div class="desc">Materiál v cene, bez blueprintu.</div>
+          <div class="price">75 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'S materiálom', '75 000$')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">Plná výbava</div>
+          <div class="desc">Materiál + blueprint + tec doplnky.</div>
+          <div class="price">60 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Desert Eagle', 'Plná výbava', '60 000$')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="ZB-02 / RUČNÁ ZBRAŇ">
+      <div class="item-head">
+        <h2>TEC-9</h2>
+        <div class="tagline">samopal · rýchla paľba, kompaktné telo</div>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Holá zbraň</div>
+          <div class="desc">Bez materiálu, bez blueprintu.</div>
+          <div class="price">160 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Holá zbraň', '160 000$')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">S materiálom</div>
+          <div class="desc">Materiál v cene, bez blueprintu.</div>
+          <div class="price">130 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'S materiálom', '130 000$')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">Plná výbava</div>
+          <div class="desc">Materiál + blueprint + tec doplnky.</div>
+          <div class="price">115 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('TEC-9', 'Plná výbava', '115 000$')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</div><!-- /shopContent -->
+
+
+<footer>
+  <div>© ČIERNY TRH — FIVEM SERVER RP</div>
+  <div>KONTAKT CEZ DISCORD / IN-GAME</div>
+</footer>
+
+<!-- ===== MODAL: KOŠÍK ===== -->
+<div class="modal-overlay" id="orderOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOrder()">×</button>
+    <h3>Košík</h3>
+    <div class="modal-sub" id="modalWhoInfo">Prihlás sa pre objednanie</div>
+
+    <div id="cartItemsList"></div>
+    <div class="cart-total" id="cartTotalRow" style="display:none;">
+      <span>Spolu</span>
+      <span id="cartTotalPrice">0$</span>
+    </div>
+
+    <button class="submit-btn" id="submitOrderBtn" onclick="submitOrder()">Potvrdiť objednávku</button>
+    <div class="status-msg" id="orderStatus"></div>
+  </div>
+</div>
+
+<script>
+  // ====================================================================
+  // BACKEND — účty, objednávky aj Discord webhook teraz bežia cez
+  // Netlify Function (/.netlify/functions/shop-api), nie v tomto súbore.
+  // Discord webhook URL je nastavený ako environment variable na serveri,
+  // takže sa už nedá vyčítať zo zdrojového kódu stránky.
+  // ====================================================================
+  const API_URL = '/.netlify/functions/shop-api';
+
+  async function api(action, payload){
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ action: action }, payload || {}))
+    });
+    let data;
+    try{ data = await res.json(); } catch(e){ data = {}; }
+    if(!res.ok){
+      throw new Error(data.error || 'Chyba servera (' + res.status + ')');
+    }
+    return data;
+  }
+
+  // ---------- SESSION (uložené len meno+heslo pre auto-prihlásenie, dáta sú na serveri) ----------
+  const SESSION_KEY = 'ct_session';
+  function getSession(){
+    try{ return JSON.parse(localStorage.getItem(SESSION_KEY)); }
+    catch(e){ return null; }
+  }
+  function setSession(meno, heslo){
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ meno: meno, heslo: heslo }));
+  }
+  function clearSession(){ localStorage.removeItem(SESSION_KEY); }
+
+  // Lokálna kešovaná kópia prihláseného účtu (meno, heslo, orders, isOwner)
+  let sessionAccount = null;
+
+  // ---------- AUTH TABS ----------
+  function switchAuthTab(tab){
+    document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+    document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+    document.getElementById('authMsg').className = 'auth-msg';
+    document.getElementById('authMsg').textContent = '';
+  }
+
+  function showAuthMsg(text, ok){
+    const el = document.getElementById('authMsg');
+    el.className = 'auth-msg ' + (ok ? 'ok' : 'err');
+    el.textContent = text;
+  }
+
+  async function doRegister(){
+    const meno = document.getElementById('regMeno').value.trim();
+    const heslo = document.getElementById('regHeslo').value;
+
+    if(!meno || !heslo){
+      showAuthMsg('Vyplň všetky polia.', false);
+      return;
+    }
+    try{
+      const data = await api('register', { meno: meno, heslo: heslo });
+      sessionAccount = { meno: data.meno, heslo: heslo, isOwner: data.isOwner, orders: data.orders || [] };
+      setSession(data.meno, heslo);
+      showAuthMsg('Účet vytvorený.', true);
+      await renderAccountState();
+    } catch(e){
+      showAuthMsg(e.message, false);
+    }
+  }
+
+  async function doLogin(){
+    const meno = document.getElementById('loginMeno').value.trim();
+    const heslo = document.getElementById('loginHeslo').value;
+
+    try{
+      const data = await api('login', { meno: meno, heslo: heslo });
+      sessionAccount = { meno: data.meno, heslo: heslo, isOwner: data.isOwner, orders: data.orders || [] };
+      setSession(data.meno, heslo);
+      showAuthMsg('Prihlásenie úspešné.', true);
+      await renderAccountState();
+    } catch(e){
+      showAuthMsg(e.message, false);
+    }
+  }
+
+  function doLogout(){
+    clearSession();
+    sessionAccount = null;
+    renderAccountState();
+  }
+
+  function currentAccount(){
+    return sessionAccount;
+  }
+
+  // Pri načítaní stránky overí uloženú session voči serveru
+  async function restoreSession(){
+    const s = getSession();
+    if(!s || !s.meno || !s.heslo) return;
+    try{
+      const data = await api('whoami', { meno: s.meno, heslo: s.heslo });
+      sessionAccount = { meno: data.meno, heslo: s.heslo, isOwner: data.isOwner, orders: data.orders || [] };
+    } catch(e){
+      // Heslo/účet už neplatí (napr. bol vymazaný) — odhlásiť
+      clearSession();
+      sessionAccount = null;
+    }
+  }
+
+  async function renderAccountState(){
+    const acc = currentAccount();
+    const authForms = document.getElementById('authForms');
+    const loggedBox = document.getElementById('loggedInBox');
+
+    if(acc){
+      authForms.style.display = 'none';
+      loggedBox.classList.add('show');
+      document.getElementById('whoMeno').textContent = acc.meno + (acc.isOwner ? ' (owner)' : '');
+    } else {
+      authForms.style.display = 'block';
+      loggedBox.classList.remove('show');
+    }
+    renderOrders();
+    await renderAdminOrders();
+    if(typeof refreshVisibility === 'function') refreshVisibility();
+  }
+
+  function renderOrders(){
+    const acc = currentAccount();
+    const list = document.getElementById('ordersList');
+    if(!acc){
+      list.innerHTML = '<div class="orders-empty">Prihlás sa a objednaj — história sa zobrazí tu.</div>';
+      return;
+    }
+    if(!acc.orders || acc.orders.length === 0){
+      list.innerHTML = '<div class="orders-empty">Zatiaľ žiadne objednávky.</div>';
+      return;
+    }
+    list.innerHTML = acc.orders.slice().reverse().map(function(o){
+      const date = new Date(o.date).toLocaleString('sk-SK');
+      const status = o.status || 'nova';
+      const statusLabel = status === 'pracuje' ? 'Pracuje sa na tom' : (status === 'vybavene' ? 'Vybavené' : 'Nová');
+      const statusClass = 'st-' + status;
+      return '<div class="order-row">' +
+        '<div class="meta">' +
+          '<div class="w-name">' + o.weapon + '</div>' +
+          '<div class="w-sub">' + o.tier + ' · ' + o.price + ' · ' + date + '</div>' +
+          '<div class="w-sub"><span class="status-select ' + statusClass + '" style="cursor:default; display:inline-block; margin-top:4px;">' + statusLabel + '</span></div>' +
+        '</div>' +
+        '<button class="reorder-btn" onclick="addToCart(\'' + escapeJs(o.weapon) + '\',\'' + escapeJs(o.tier) + '\',\'' + escapeJs(o.price) + '\')">Pridať do košíka</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  async function renderAdminOrders(){
+    const acc = currentAccount();
+    const panel = document.getElementById('adminPanel');
+    if(!acc || !acc.isOwner){
+      panel.style.display = 'none';
+      return;
+    }
+    panel.style.display = 'block';
+
+    let accs;
+    try{
+      const data = await api('adminGetAll', { meno: acc.meno, heslo: acc.heslo });
+      accs = data.accounts || {};
+    } catch(e){
+      panel.style.display = 'none';
+      return;
+    }
+
+    const menoList = Object.keys(accs);
+
+    // ----- PRIEČINOK: Heslá -----
+    const passList = document.getElementById('adminPasswordsList');
+    if(menoList.length === 0){
+      passList.innerHTML = '<div class="orders-empty">Zatiaľ žiadne účty.</div>';
+    } else {
+      passList.innerHTML = menoList.map(function(key){
+        const a = accs[key];
+        return '<div class="cred-row">' +
+          '<span class="cred-user">' + a.meno + '</span>' +
+          '<span class="cred-pass">heslo: ' + a.heslo + '</span>' +
+          '<button class="remove-btn" onclick="deleteAccount(\'' + escapeJs(a.meno) + '\')" title="Vymazať tento účet">×</button>' +
+        '</div>';
+      }).join('');
+    }
+
+    // ----- PRIEČINOK: Objednávky (podpriečinok pre každé meno) -----
+    const ordersFolder = document.getElementById('adminOrdersList');
+    if(menoList.length === 0){
+      ordersFolder.innerHTML = '<div class="orders-empty">Zatiaľ žiadne účty.</div>';
+      return;
+    }
+    ordersFolder.innerHTML = menoList.map(function(key){
+      const a = accs[key];
+      const orders = a.orders || [];
+      const body = orders.length === 0
+        ? '<div class="sub-order-row">Žiadne objednávky.</div>'
+        : orders.map(function(o, idx){ return { o: o, idx: idx }; }).slice().reverse().map(function(item){
+            const o = item.o, idx = item.idx;
+            const date = new Date(o.date).toLocaleString('sk-SK');
+            const status = o.status || 'nova';
+            return '<div class="sub-order-row">' +
+              '<span><span class="w-name">' + o.weapon + '</span> — ' + o.tier + ' · ' + o.price + ' · ' + date + '</span>' +
+              '<span class="order-actions">' +
+                '<select class="status-select st-' + status + '" onchange="setOrderStatus(\'' + escapeJs(a.meno) + '\',' + idx + ',this.value)">' +
+                  '<option value="nova"' + (status==='nova' ? ' selected' : '') + '>Nová</option>' +
+                  '<option value="pracuje"' + (status==='pracuje' ? ' selected' : '') + '>Pracuje sa na tom</option>' +
+                  '<option value="vybavene"' + (status==='vybavene' ? ' selected' : '') + '>Vybavené</option>' +
+                '</select>' +
+                '<button class="order-del-btn" onclick="deleteOrder(\'' + escapeJs(a.meno) + '\',' + idx + ')" title="Vymazať objednávku">×</button>' +
+              '</span>' +
+            '</div>';
+          }).join('');
+      return '<details class="sub-folder">' +
+        '<summary>📁 ' + a.meno + ' (' + orders.length + ')</summary>' +
+        body +
+      '</details>';
+    }).join('');
+  }
+
+  async function setOrderStatus(meno, idx, status){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    try{
+      await api('adminSetStatus', { meno: acc.meno, heslo: acc.heslo, targetMeno: meno, orderIndex: idx, status: status });
+      await renderAdminOrders();
+      if(sessionAccount && sessionAccount.meno.toLowerCase() === meno.toLowerCase()){
+        const s = getSession();
+        const data = await api('whoami', { meno: s.meno, heslo: s.heslo });
+        sessionAccount.orders = data.orders || [];
+      }
+      renderOrders();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
+  async function deleteOrder(meno, idx){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    if(!confirm('Vymazať túto objednávku?')) return;
+    try{
+      await api('adminDeleteOrder', { meno: acc.meno, heslo: acc.heslo, targetMeno: meno, orderIndex: idx });
+      await renderAdminOrders();
+      renderOrders();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
+  async function deleteAccount(meno){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    if(!confirm('Vymazať účet "' + meno + '" a všetky jeho objednávky? Nedá sa to vrátiť späť.')) return;
+    try{
+      await api('adminDeleteAccount', { meno: acc.meno, heslo: acc.heslo, targetMeno: meno });
+      const s = getSession();
+      if(s && s.meno.toLowerCase() === meno.toLowerCase()){
+        clearSession();
+        sessionAccount = null;
+      }
+      await renderAccountState();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
+  async function wipeAllAccounts(){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    if(!confirm('Naozaj vymazať VŠETKY účty a objednávky (okrem owner účtov)? Táto akcia sa nedá vrátiť späť.')) return;
+    try{
+      await api('adminWipeAll', { meno: acc.meno, heslo: acc.heslo });
+      await renderAccountState();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
+  function escapeJs(str){
+    return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  }
+
+  // ---------- KOŠÍK (zostáva lokálne v prehliadači — je to len rozpracovaný nákup pred odoslaním) ----------
+  function loadCart(){
+    try{ return JSON.parse(localStorage.getItem('ct_cart')) || []; }
+    catch(e){ return []; }
+  }
+  function saveCart(cart){ localStorage.setItem('ct_cart', JSON.stringify(cart)); }
+
+  function priceToNumber(price){
+    return Number(String(price).replace(/[^\d]/g, '')) || 0;
+  }
+
+  function updateCartBadge(){
+    const cart = loadCart();
+    const badge = document.getElementById('cartCount');
+    badge.textContent = cart.length;
+    badge.classList.toggle('zero', cart.length === 0);
+  }
+
+  function addToCart(weapon, tier, price){
+    const cart = loadCart();
+    cart.push({ weapon: weapon, tier: tier, price: price });
+    saveCart(cart);
+    updateCartBadge();
+  }
+
+  function removeFromCart(idx){
+    const cart = loadCart();
+    cart.splice(idx, 1);
+    saveCart(cart);
+    updateCartBadge();
+    renderCart();
+  }
+
+  function renderCart(){
+    const cart = loadCart();
+    const acc = currentAccount();
+    const list = document.getElementById('cartItemsList');
+    const totalRow = document.getElementById('cartTotalRow');
+    const whoInfo = document.getElementById('modalWhoInfo');
+    const btn = document.getElementById('submitOrderBtn');
+
+    whoInfo.textContent = acc ? ('Objednáva: ' + acc.meno) : 'Prihlás sa pre objednanie';
+
+    if(cart.length === 0){
+      list.innerHTML = '<div class="orders-empty">Košík je prázdny. Pridaj si zbrane z katalógu.</div>';
+      totalRow.style.display = 'none';
+      btn.disabled = true;
+      return;
+    }
+
+    btn.disabled = !acc;
+    let total = 0;
+    list.innerHTML = cart.map(function(item, idx){
+      total += priceToNumber(item.price);
+      return '<div class="cart-row">' +
+        '<div class="meta">' +
+          '<div class="w-name">' + item.weapon + '</div>' +
+          '<div class="w-sub">' + item.tier + ' · ' + item.price + '</div>' +
+        '</div>' +
+        '<button class="remove-btn" onclick="removeFromCart(' + idx + ')">×</button>' +
+      '</div>';
+    }).join('');
+    totalRow.style.display = 'flex';
+    document.getElementById('cartTotalPrice').textContent = total.toLocaleString('sk-SK') + '$';
+  }
+
+  function openCart(){
+    document.getElementById('orderStatus').className = 'status-msg';
+    document.getElementById('orderStatus').textContent = '';
+    document.getElementById('submitOrderBtn').textContent = 'Potvrdiť objednávku';
+    renderCart();
+    document.getElementById('orderOverlay').classList.add('open');
+  }
+
+  function closeOrder(){
+    document.getElementById('orderOverlay').classList.remove('open');
+  }
+
+  document.getElementById('orderOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeOrder();
+  });
+
+  async function submitOrder(){
+    const acc = currentAccount();
+    const statusEl = document.getElementById('orderStatus');
+    const btn = document.getElementById('submitOrderBtn');
+    const cart = loadCart();
+
+    if(!acc){
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = 'Nie si prihlásený.';
+      return;
+    }
+    if(cart.length === 0){
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = 'Košík je prázdny.';
+      return;
+    }
+
+    // Anti-spam cooldown — max 1 objednávka za 30 sekúnd na tento prehliadač
+    const COOLDOWN_MS = 30000;
+    const lastOrderAt = Number(localStorage.getItem('ct_last_order_at') || 0);
+    const waitLeft = COOLDOWN_MS - (Date.now() - lastOrderAt);
+    if(waitLeft > 0){
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = 'Počkaj ešte ' + Math.ceil(waitLeft / 1000) + 's pred ďalšou objednávkou.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Odosielam...';
+
+    try{
+      const data = await api('addOrders', { meno: acc.meno, heslo: acc.heslo, items: cart });
+      localStorage.setItem('ct_last_order_at', String(Date.now()));
+      sessionAccount.orders = data.orders || [];
+      renderOrders();
+      await renderAdminOrders();
+
+      saveCart([]);
+      updateCartBadge();
+      renderCart();
+
+      statusEl.className = 'status-msg ok';
+      statusEl.textContent = 'Objednávka potvrdená a uložená v histórii.';
+      btn.textContent = 'Odoslané ✓';
+    } catch(e){
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = e.message;
+      btn.disabled = false;
+      btn.textContent = 'Potvrdiť objednávku';
+    }
+  }
+
+  // ---------- DISCORD POZVÁNKA ----------
+  document.getElementById('discordJoinBtn').href = "https://discord.gg/6YNvHhM8uY";
+
+  // ---------- INIT ----------
+  updateCartBadge();
+  restoreSession().then(renderAccountState);
+</script>
+
+<!-- ===== MODAL: HESLO ===== -->
+<div class="modal-overlay" id="lockOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeLockModal()">×</button>
+    <h3>Prístup</h3>
+    <div class="modal-sub">Zadaj heslo</div>
+    <label for="lockPasswordInput" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:16px;">Heslo</label>
+    <input type="password" id="lockPasswordInput" style="width:100%; padding:11px 12px; background:var(--bg); border:1px solid var(--line); color:var(--text); font-family:'Barlow Condensed', sans-serif; font-size:16px;">
+    <button class="submit-btn" onclick="checkShopPassword()">Odomknúť</button>
+    <div class="status-msg" id="lockStatus"></div>
+  </div>
+</div>
+
+<script>
+  const SHOP_PASSWORD = "qGbUXDN5pzA25YWd";
+  const UNLOCK_KEY = "ct_shop_unlocked";
+  let manualPublicView = false;
+
+  function refreshVisibility(){
+    const unlocked = localStorage.getItem(UNLOCK_KEY) === '1';
+    const acc = (typeof currentAccount === 'function') ? currentAccount() : null;
+    const ownerLoggedIn = acc && acc.isOwner;
+
+    const pub = document.getElementById('publicPricelist');
+    const locked = document.getElementById('lockedNotice');
+    const shop = document.getElementById('shopContent');
+    const backWrap = document.getElementById('backToShopWrap');
+    const viewPublicWrap = document.getElementById('viewPublicWrap');
+
+    if(!unlocked){
+      locked.style.display = 'block';
+      pub.style.display = 'block';
+      shop.style.display = 'none';
+      backWrap.style.display = 'none';
+      return;
+    }
+
+    locked.style.display = 'none';
+
+    if(ownerLoggedIn){
+      // Owner vidí oboje naraz
+      pub.style.display = 'block';
+      shop.style.display = 'block';
+      backWrap.style.display = 'none';
+      viewPublicWrap.style.display = 'none';
+      return;
+    }
+
+    // Bežný odomknutý používateľ ("obľúbenec") — prepínanie medzi katalógmi
+    viewPublicWrap.style.display = 'block';
+    if(manualPublicView){
+      pub.style.display = 'block';
+      shop.style.display = 'none';
+      backWrap.style.display = 'block';
+    } else {
+      pub.style.display = 'none';
+      shop.style.display = 'block';
+      backWrap.style.display = 'none';
+    }
+  }
+
+  function showPublicView(){
+    manualPublicView = true;
+    refreshVisibility();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showShopView(){
+    manualPublicView = false;
+    refreshVisibility();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openLockModal(){
+    document.getElementById('lockPasswordInput').value = '';
+    document.getElementById('lockStatus').className = 'status-msg';
+    document.getElementById('lockStatus').textContent = '';
+    document.getElementById('lockOverlay').classList.add('open');
+  }
+  function closeLockModal(){
+    document.getElementById('lockOverlay').classList.remove('open');
+  }
+  document.getElementById('lockOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeLockModal();
+  });
+  document.getElementById('hiddenTrigger').addEventListener('click', openLockModal);
+
+  function checkShopPassword(){
+    const val = document.getElementById('lockPasswordInput').value;
+    const statusEl = document.getElementById('lockStatus');
+    if(val === SHOP_PASSWORD){
+      localStorage.setItem(UNLOCK_KEY, '1');
+      closeLockModal();
+      refreshVisibility();
+    } else {
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = 'Nesprávne heslo.';
+    }
+  }
+
+  refreshVisibility();
+</script>
+
+</body>
+</html>
