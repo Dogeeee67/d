@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ČIERNY TRH — Zbrojnica</title>
+<title>Redwood Cigarettes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0c0e0a;
-    --bg-panel: #14170f;
-    --line: #2a2e22;
-    --olive: #4d5a3a;
-    --olive-dim: #333c28;
-    --rust: #c1602e;
-    --amber: #c99a3a;
-    --text: #e6e2d3;
-    --text-dim: #8b9078;
-    --danger: #8a2b20;
+    --bg: #140d0a;
+    --bg-panel: #1f1510;
+    --line: #3a2a1e;
+    --olive: #7a4a32;
+    --olive-dim: #4a3226;
+    --rust: #9c4221;
+    --amber: #d4a24c;
+    --text: #f0e6d8;
+    --text-dim: #a68f78;
+    --danger: #7a2419;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
@@ -217,7 +217,7 @@
     cursor:pointer;
     transition:background 0.15s ease, color 0.15s ease;
   }
-  .discord-cta:hover{ background:var(--amber); color:#14170f; }
+  .discord-cta:hover{ background:var(--amber); color:var(--bg-panel); }
 
   .cart-cta{
     margin-top:26px;
@@ -636,9 +636,9 @@
 <body>
 
 <header>
-  <div class="crate-tag">SKLAD PRÍSTUPNÝ · IBA NA POZVANIE</div>
-  <h1 class="brand">ČIERNY <span>TR<span id="hiddenTrigger" style="cursor:default;">H</span></span></h1>
-  <p class="sub">Ceny za kus. Vyber si výbavu — od holej zbrane až po plnú konfiguráciu s doplnkami. Doprava sa rieši osobne, žiadne otázky navyše.</p>
+  <div class="crate-tag">PREDAJŇA TABAKOVÝCH VÝROBKOV</div>
+  <h1 class="brand"><span id="hiddenTrigger" style="cursor:default; color:var(--text); text-shadow:3px 3px 0 var(--danger); -webkit-text-stroke:0;">R</span>EDWOOD <span>CIGARET<span id="hiddenTrigger2" style="cursor:default; -webkit-text-stroke:1px var(--olive);">T</span>ES</span></h1>
+  <p class="sub">Doutníky a cigarety pre náročných. Kvalitný tabak, poctivé spracovanie, diskrétne doručenie.</p>
   <div class="stamp-row">
     <div>STAV: <b>DOSTUPNÉ</b></div>
     <div>PLATBA: <b>PRI ODOVZDANÍ</b></div>
@@ -648,56 +648,49 @@
 </header>
 
 <div id="publicPricelist">
-<div class="section-label"><span>CENNÍK</span><div class="line"></div></div>
-<div style="padding:0 6vw; margin-top:14px; display:none;" id="backToShopWrap">
-  <button class="order-btn" style="max-width:280px; border-color:var(--amber); color:var(--amber);" onclick="showShopView()">↩ Späť do obchodu</button>
-</div>
+<div class="section-label"><span>PONUKA</span><div class="line"></div></div>
 
 <main style="padding-bottom:20px;">
   <div class="catalog">
 
-    <div class="item" data-code="DEAGLE">
+    <div class="item" data-code="TORPEDO">
       <div class="item-head">
-        <h2>Deagle</h2>
+        <h2>Doutník Torpédo</h2>
+        <div class="tagline">ručne balený · pomalé horenie, dlhý pôžitok na výnimočné chvíle</div>
       </div>
       <div class="tiers">
         <div class="tier">
-          <div class="eyebrow">Bez ničoho</div>
-          <div class="price">150 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'Bez ničoho', '150 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier">
-          <div class="eyebrow">Materiál bez blueprintu</div>
-          <div class="price">135 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'Materiál bez blueprintu', '135 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">So všetkým</div>
-          <div class="price">120 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Deagle', 'So všetkým', '120 000$', 'public')">Pridať do košíka</button>
+          <div class="eyebrow">Cena</div>
+          <div class="price">4 500<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Doutník Torpédo', 'Štandard', '4 500$', 'cigarettes')">Pridať do košíka</button>
         </div>
       </div>
     </div>
 
-    <div class="item" data-code="TEC">
+    <div class="item" data-code="GOLD-RESERVE">
       <div class="item-head">
-        <h2>Tec</h2>
+        <h2>Redwood Gold Reserve</h2>
+        <div class="tagline">prémiová zmes · jemný, vyvážený ťah</div>
       </div>
       <div class="tiers">
         <div class="tier">
-          <div class="eyebrow">Bez ničoho</div>
-          <div class="price">200 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'Bez ničoho', '200 000$', 'public')">Pridať do košíka</button>
+          <div class="eyebrow">Cena</div>
+          <div class="price">3 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Redwood Gold Reserve', 'Štandard', '3 000$', 'cigarettes')">Pridať do košíka</button>
         </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="LIGHT">
+      <div class="item-head">
+        <h2>Redwood Light</h2>
+        <div class="tagline">ľahšia zmes · na každý deň</div>
+      </div>
+      <div class="tiers">
         <div class="tier">
-          <div class="eyebrow">Materiál bez blueprintu</div>
-          <div class="price">175 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'Materiál bez blueprintu', '175 000$', 'public')">Pridať do košíka</button>
-        </div>
-        <div class="tier full">
-          <div class="eyebrow">So všetkým</div>
-          <div class="price">160 000<sup>$</sup></div>
-          <button class="order-btn" onclick="addToCart('Tec', 'So všetkým', '160 000$', 'public')">Pridať do košíka</button>
+          <div class="eyebrow">Cena</div>
+          <div class="price">2 500<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Redwood Light', 'Štandard', '2 500$', 'cigarettes')">Pridať do košíka</button>
         </div>
       </div>
     </div>
@@ -723,6 +716,9 @@
           <input type="text" id="loginMeno" placeholder="napr. John Doe" autocomplete="off">
           <label for="loginHeslo">Heslo</label>
           <input type="password" id="loginHeslo" autocomplete="off">
+          <label style="display:flex; align-items:center; gap:8px; margin-top:14px; text-transform:none; font-family:'Barlow Condensed', sans-serif; font-size:15px; color:var(--text-dim); cursor:pointer;">
+            <input type="checkbox" id="loginRemember" style="width:auto;"> Zapamätať si ma na tomto zariadení
+          </label>
           <button class="auth-submit" onclick="doLogin()">Prihlásiť sa</button>
         </div>
 
@@ -754,6 +750,32 @@
         <h3>⬡ Admin</h3>
         <div class="account-hint" style="margin-top:-8px; margin-bottom:18px;">Dáta uložené v tomto prehliadači. Účty/objednávky z iných zariadení vidíš len na Discorde.</div>
 
+        <details class="folder" open>
+          <summary>🔑 Vstupný kód — Cenník (na "R")</summary>
+          <div class="folder-body">
+            <div class="account-hint" style="margin-top:0;">Odomyká len základný cenník (Deagle/Tec) pre klasických ľudí. Kód je JEDNORAZOVÝ.</div>
+            <label for="codeForWhomInput_cennik" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:14px;">Pre koho (meno)</label>
+            <input type="text" id="codeForWhomInput_cennik" placeholder="napr. Meno hráča" style="width:100%; max-width:320px; padding:10px 12px; background:var(--bg); border:1px solid var(--line); color:var(--text); font-family:'Barlow Condensed', sans-serif; font-size:16px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;">
+              <div class="cred-pass" id="currentAccessCode_cennik" style="font-size:22px; letter-spacing:0.1em;">— — — —</div>
+              <button class="order-btn" style="max-width:220px;" onclick="generateNewCode('cennik')">🔄 Vygenerovať nový kód</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="folder" open>
+          <summary>🔑 Vstupný kód — Obľúbenci (na 2. "T")</summary>
+          <div class="folder-body">
+            <div class="account-hint" style="margin-top:0;">Odomyká exkluzívny katalóg (Desert Eagle/TEC-9) len pre "obľúbencov". Kód je JEDNORAZOVÝ.</div>
+            <label for="codeForWhomInput_elite" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:14px;">Pre koho (meno)</label>
+            <input type="text" id="codeForWhomInput_elite" placeholder="napr. Meno hráča" style="width:100%; max-width:320px; padding:10px 12px; background:var(--bg); border:1px solid var(--line); color:var(--text); font-family:'Barlow Condensed', sans-serif; font-size:16px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;">
+              <div class="cred-pass" id="currentAccessCode_elite" style="font-size:22px; letter-spacing:0.1em;">— — — —</div>
+              <button class="order-btn" style="max-width:220px;" onclick="generateNewCode('elite')">🔄 Vygenerovať nový kód</button>
+            </div>
+          </div>
+        </details>
+
         <details class="folder">
           <summary>📁 Heslá</summary>
           <div class="folder-body" id="adminPasswordsList"></div>
@@ -771,16 +793,11 @@
   </div>
 </div>
 
-<div id="lockedNotice" style="padding:60px 6vw; text-align:center; font-family:'JetBrains Mono', monospace; color:var(--text-dim); font-size:13px; letter-spacing:0.08em;">
-  ZAMKNUTÉ
-</div>
+<div id="lockedNotice" style="display:none;"></div>
 
-<div id="shopContent" style="display:none;">
+<div id="oblubenciContent" style="display:none;">
 
 <div class="section-label"><span>OBĽÚBENCI</span><div class="line"></div></div>
-<div style="padding:0 6vw; margin-top:14px;" id="viewPublicWrap">
-  <button class="order-btn" style="max-width:280px;" onclick="showPublicView()">📋 Porovnať s verejným cenníkom</button>
-</div>
 
 <main>
   <div class="catalog">
@@ -842,11 +859,69 @@
   </div>
 </main>
 
-</div><!-- /shopContent -->
+</div><!-- /oblubenciContent -->
+
+<div id="cennikContent" style="display:none;">
+
+<div class="section-label"><span>CENNÍK</span><div class="line"></div></div>
+
+<main>
+  <div class="catalog">
+
+    <div class="item" data-code="DEAGLE">
+      <div class="item-head">
+        <h2>Deagle</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">150 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Bez ničoho', '150 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">135 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'Materiál bez blueprintu', '135 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">120 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Deagle', 'So všetkým', '120 000$', 'public')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-code="TEC">
+      <div class="item-head">
+        <h2>Tec</h2>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="eyebrow">Bez ničoho</div>
+          <div class="price">200 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Bez ničoho', '200 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier">
+          <div class="eyebrow">Materiál bez blueprintu</div>
+          <div class="price">175 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'Materiál bez blueprintu', '175 000$', 'public')">Pridať do košíka</button>
+        </div>
+        <div class="tier full">
+          <div class="eyebrow">So všetkým</div>
+          <div class="price">160 000<sup>$</sup></div>
+          <button class="order-btn" onclick="addToCart('Tec', 'So všetkým', '160 000$', 'public')">Pridať do košíka</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</div><!-- /cennikContent -->
 
 
 <footer>
-  <div>© ČIERNY TRH — FIVEM SERVER RP</div>
+  <div>© Redwood Cigarettes</div>
   <div>KONTAKT CEZ DISCORD / IN-GAME</div>
 </footer>
 
@@ -892,15 +967,28 @@
   }
 
   // ---------- SESSION (uložené len meno+heslo pre auto-prihlásenie, dáta sú na serveri) ----------
+  // Ak "Zapamätať si" NIE JE zaškrtnuté: session žije len v sessionStorage —
+  // zmizne, keď zavrieš kartu/prehliadač. Nikto iný, kto si na tomto
+  // zariadení otvorí stránku neskôr, ju nevidí.
+  // Ak JE zaškrtnuté: uloží sa trvalo do localStorage tohto prehliadača.
   const SESSION_KEY = 'ct_session';
   function getSession(){
-    try{ return JSON.parse(localStorage.getItem(SESSION_KEY)); }
-    catch(e){ return null; }
+    try{
+      return JSON.parse(localStorage.getItem(SESSION_KEY)) || JSON.parse(sessionStorage.getItem(SESSION_KEY));
+    } catch(e){ return null; }
   }
-  function setSession(meno, heslo){
-    localStorage.setItem(SESSION_KEY, JSON.stringify({ meno: meno, heslo: heslo }));
+  function setSession(meno, heslo, remember){
+    const val = JSON.stringify({ meno: meno, heslo: heslo });
+    if(remember){
+      localStorage.setItem(SESSION_KEY, val);
+    } else {
+      sessionStorage.setItem(SESSION_KEY, val);
+    }
   }
-  function clearSession(){ localStorage.removeItem(SESSION_KEY); }
+  function clearSession(){
+    localStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SESSION_KEY);
+  }
 
   // Lokálna kešovaná kópia prihláseného účtu (meno, heslo, orders, isOwner)
   let sessionAccount = null;
@@ -932,7 +1020,7 @@
     try{
       const data = await api('register', { meno: meno, heslo: heslo });
       sessionAccount = { meno: data.meno, heslo: heslo, isOwner: data.isOwner, orders: data.orders || [] };
-      setSession(data.meno, heslo);
+      setSession(data.meno, heslo, false);
       showAuthMsg('Účet vytvorený.', true);
       await renderAccountState();
     } catch(e){
@@ -943,11 +1031,12 @@
   async function doLogin(){
     const meno = document.getElementById('loginMeno').value.trim();
     const heslo = document.getElementById('loginHeslo').value;
+    const remember = document.getElementById('loginRemember').checked;
 
     try{
       const data = await api('login', { meno: meno, heslo: heslo });
       sessionAccount = { meno: data.meno, heslo: heslo, isOwner: data.isOwner, orders: data.orders || [] };
-      setSession(data.meno, heslo);
+      setSession(data.meno, heslo, remember);
       showAuthMsg('Prihlásenie úspešné.', true);
       await renderAccountState();
     } catch(e){
@@ -1033,6 +1122,14 @@
     }
     panel.style.display = 'block';
 
+    try{
+      const codeDataCennik = await api('getAccessCode', { meno: acc.meno, heslo: acc.heslo, target: 'cennik' });
+      document.getElementById('currentAccessCode_cennik').textContent = codeDataCennik.code ? (codeDataCennik.code + (codeDataCennik.forWhom ? ' (pre: ' + codeDataCennik.forWhom + ')' : '')) : 'Nepoužitý/nevygenerovaný — vygeneruj nový';
+
+      const codeDataElite = await api('getAccessCode', { meno: acc.meno, heslo: acc.heslo, target: 'elite' });
+      document.getElementById('currentAccessCode_elite').textContent = codeDataElite.code ? (codeDataElite.code + (codeDataElite.forWhom ? ' (pre: ' + codeDataElite.forWhom + ')' : '')) : 'Nepoužitý/nevygenerovaný — vygeneruj nový';
+    } catch(e){ /* nekritické */ }
+
     let accs;
     try{
       const data = await api('adminGetAll', { meno: acc.meno, heslo: acc.heslo });
@@ -1075,7 +1172,10 @@
             const date = new Date(o.date).toLocaleString('sk-SK');
             const status = o.status || 'nova';
             return '<div class="sub-order-row">' +
-              '<span><span class="w-name">' + o.weapon + '</span> — ' + o.tier + ' · ' + o.price + ' · ' + date + '</span>' +
+              '<span style="display:flex; align-items:center; gap:8px;">' +
+                '<input type="checkbox" class="bulk-order-check" data-meno="' + escapeJs(a.meno) + '" data-idx="' + idx + '">' +
+                '<span><span class="w-name">' + o.weapon + '</span> — ' + o.tier + ' · ' + o.price + ' · ' + date + '</span>' +
+              '</span>' +
               '<span class="order-actions">' +
                 '<select class="status-select st-' + status + '" onchange="setOrderStatus(\'' + escapeJs(a.meno) + '\',' + idx + ',this.value)">' +
                   '<option value="nova"' + (status==='nova' ? ' selected' : '') + '>Nová</option>' +
@@ -1091,6 +1191,7 @@
         body +
       '</details>';
     }).join('');
+    ordersFolder.innerHTML = '<button class="logout-btn" style="margin-bottom:14px;" onclick="bulkDeleteOrders()">🗑 Vymazať zaškrtnuté objednávky</button>' + ordersFolder.innerHTML;
   }
 
   async function setOrderStatus(meno, idx, status){
@@ -1123,6 +1224,30 @@
     }
   }
 
+  async function bulkDeleteOrders(){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+
+    const checked = Array.from(document.querySelectorAll('.bulk-order-check:checked'));
+    if(checked.length === 0){
+      alert('Nezaškrtol si žiadnu objednávku.');
+      return;
+    }
+    if(!confirm('Vymazať ' + checked.length + ' zaškrtnutých objednávok? Nedá sa to vrátiť späť.')) return;
+
+    const items = checked.map(function(cb){
+      return { meno: cb.getAttribute('data-meno'), orderIndex: Number(cb.getAttribute('data-idx')) };
+    });
+
+    try{
+      await api('adminBulkDeleteOrders', { meno: acc.meno, heslo: acc.heslo, items: items });
+      await renderAdminOrders();
+      renderOrders();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
   async function deleteAccount(meno){
     const acc = currentAccount();
     if(!acc || !acc.isOwner) return;
@@ -1135,6 +1260,24 @@
         sessionAccount = null;
       }
       await renderAccountState();
+    } catch(e){
+      alert(e.message);
+    }
+  }
+
+  async function generateNewCode(target){
+    const acc = currentAccount();
+    if(!acc || !acc.isOwner) return;
+    const forWhom = document.getElementById('codeForWhomInput_' + target).value.trim();
+    if(!forWhom){
+      alert('Zadaj pre koho kód generuješ.');
+      return;
+    }
+    if(!confirm('Vygenerovať nový kód pre "' + forWhom + '"? Starý kód okamžite prestane fungovať pre všetkých, ktorí ho ešte nepoužili na odomknutie.')) return;
+    try{
+      const data = await api('generateAccessCode', { meno: acc.meno, heslo: acc.heslo, forWhom: forWhom, target: target });
+      document.getElementById('currentAccessCode_' + target).textContent = data.code;
+      document.getElementById('codeForWhomInput_' + target).value = '';
     } catch(e){
       alert(e.message);
     }
@@ -1315,74 +1458,35 @@
   <div class="modal">
     <button class="modal-close" onclick="closeLockModal()">×</button>
     <h3>Prístup</h3>
-    <div class="modal-sub">Zadaj heslo</div>
-    <label for="lockPasswordInput" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:16px;">Heslo</label>
+    <div class="modal-sub">Zadaj prístupový kód</div>
+    <label for="lockPasswordInput" style="display:block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; margin-top:16px;">Kód</label>
     <input type="password" id="lockPasswordInput" style="width:100%; padding:11px 12px; background:var(--bg); border:1px solid var(--line); color:var(--text); font-family:'Barlow Condensed', sans-serif; font-size:16px;">
-    <button class="submit-btn" onclick="checkShopPassword()">Odomknúť</button>
+    <button class="submit-btn" id="lockSubmitBtn" onclick="checkShopPassword()">Odomknúť</button>
     <div class="status-msg" id="lockStatus"></div>
   </div>
 </div>
 
 <script>
-  const SHOP_PASSWORD = "qGbUXDN5pzA25YWd";
-  const UNLOCK_KEY = "ct_shop_unlocked";
-  let manualPublicView = false;
+  // Odomknutie sa NEPAMÄTÁ v prehliadači — po každom novom otvorení/obnovení
+  // stránky treba zadať platný (nový) kód. Dva nezávislé zámky:
+  //  - "R" -> cenníkUnlocked -> #cennikContent (Deagle/Tec, pre klasických ľudí)
+  //  - druhé "T" v CIGARETTES -> eliteUnlocked -> #oblubenciContent (Desert Eagle/TEC-9)
+  let cennikUnlocked = false;
+  let eliteUnlocked = false;
+  let lockTarget = 'cennik';
 
   function refreshVisibility(){
-    const unlocked = localStorage.getItem(UNLOCK_KEY) === '1';
-    const acc = (typeof currentAccount === 'function') ? currentAccount() : null;
-    const ownerLoggedIn = acc && acc.isOwner;
-
-    const pub = document.getElementById('publicPricelist');
     const locked = document.getElementById('lockedNotice');
-    const shop = document.getElementById('shopContent');
-    const backWrap = document.getElementById('backToShopWrap');
-    const viewPublicWrap = document.getElementById('viewPublicWrap');
-
-    if(!unlocked){
-      locked.style.display = 'block';
-      pub.style.display = 'block';
-      shop.style.display = 'none';
-      backWrap.style.display = 'none';
-      return;
-    }
+    const cennik = document.getElementById('cennikContent');
+    const elite = document.getElementById('oblubenciContent');
 
     locked.style.display = 'none';
-
-    if(ownerLoggedIn){
-      // Owner vidí oboje naraz
-      pub.style.display = 'block';
-      shop.style.display = 'block';
-      backWrap.style.display = 'none';
-      viewPublicWrap.style.display = 'none';
-      return;
-    }
-
-    // Bežný odomknutý používateľ ("obľúbenec") — prepínanie medzi katalógmi
-    viewPublicWrap.style.display = 'block';
-    if(manualPublicView){
-      pub.style.display = 'block';
-      shop.style.display = 'none';
-      backWrap.style.display = 'block';
-    } else {
-      pub.style.display = 'none';
-      shop.style.display = 'block';
-      backWrap.style.display = 'none';
-    }
+    cennik.style.display = cennikUnlocked ? 'block' : 'none';
+    elite.style.display = eliteUnlocked ? 'block' : 'none';
   }
 
-  function showPublicView(){
-    manualPublicView = true;
-    refreshVisibility();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  function showShopView(){
-    manualPublicView = false;
-    refreshVisibility();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function openLockModal(){
+  function openLockModal(target){
+    lockTarget = target;
     document.getElementById('lockPasswordInput').value = '';
     document.getElementById('lockStatus').className = 'status-msg';
     document.getElementById('lockStatus').textContent = '';
@@ -1395,19 +1499,33 @@
     document.getElementById('lockOverlay').addEventListener('click', function(e){
       if(e.target === this) closeLockModal();
     });
-    document.getElementById('hiddenTrigger').addEventListener('click', openLockModal);
+    document.getElementById('hiddenTrigger').addEventListener('click', function(){ openLockModal('cennik'); });
+    document.getElementById('hiddenTrigger2').addEventListener('click', function(){ openLockModal('elite'); });
   } catch(e){ console.error('lock listeners failed:', e); }
 
-  function checkShopPassword(){
-    const val = document.getElementById('lockPasswordInput').value;
+  async function checkShopPassword(){
+    const val = document.getElementById('lockPasswordInput').value.trim();
     const statusEl = document.getElementById('lockStatus');
-    if(val === SHOP_PASSWORD){
-      localStorage.setItem(UNLOCK_KEY, '1');
+    const btn = document.getElementById('lockSubmitBtn');
+
+    if(!val){
+      statusEl.className = 'status-msg err';
+      statusEl.textContent = 'Zadaj kód.';
+      return;
+    }
+
+    if(btn){ btn.disabled = true; btn.textContent = 'Overujem...'; }
+
+    try{
+      await api('checkAccessCode', { code: val, target: lockTarget });
+      if(lockTarget === 'elite'){ eliteUnlocked = true; } else { cennikUnlocked = true; }
       closeLockModal();
       refreshVisibility();
-    } else {
+    } catch(e){
       statusEl.className = 'status-msg err';
-      statusEl.textContent = 'Nesprávne heslo.';
+      statusEl.textContent = 'Nesprávny kód.';
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = 'Odomknúť'; }
     }
   }
 

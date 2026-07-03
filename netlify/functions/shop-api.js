@@ -31,6 +31,16 @@ function normKey(meno) {
   return (meno || '').trim().toLowerCase();
 }
 
+function generateCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // bez mätúcich znakov (0/O, 1/I)
+  let code = '';
+  for (let i = 0; i < 8; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+    if (i === 3) code += '-';
+  }
+  return code;
+}
+
 function json(statusCode, obj) {
   return {
     statusCode,
@@ -86,11 +96,24 @@ async function sendDiscordMessage(webhookUrl, acc, items, titleSuffix) {
   }
 }
 
+async function sendDiscordSimpleMessage(webhookUrl, payload) {
+  if (!webhookUrl) return;
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    // notifikácia je len bonus
+  }
+}
+
 async function sendDiscordOrder(acc, items) {
   // Rozdeľ položky podľa zdroja — verejný cenník (bežní ľudia) posiela na
   // iný Discord kanál ako skrytý shop "Obľúbenci".
-  const publicItems = items.filter(function (i) { return i.source === 'public'; });
-  const hiddenItems = items.filter(function (i) { return i.source !== 'public'; });
+  const publicItems = items.filter(function (i) { return i.source === 'public' || i.source === 'cigarettes'; });
+  const hiddenItems = items.filter(function (i) { return i.source !== 'public' && i.source !== 'cigarettes'; });
 
   const hiddenWebhook = process.env.DISCORD_WEBHOOK_URL;
   const publicWebhook = process.env.DISCORD_WEBHOOK_URL_PUBLIC || hiddenWebhook;
@@ -180,7 +203,7 @@ exports.handler = async function (event) {
           weapon: String(item.weapon || '').slice(0, 120),
           tier: String(item.tier || '').slice(0, 120),
           price: String(item.price || '').slice(0, 50),
-          source: item.source === 'public' ? 'public' : 'hidden',
+          source: (item.source === 'public' || item.source === 'cigarettes') ? item.source : 'hidden',
           date: now,
           status: 'nova'
         };
@@ -201,6 +224,63 @@ exports.handler = async function (event) {
 
       const accounts = await loadAccounts(store);
       return json(200, { ok: true, accounts: accounts });
+    }
+
+    // ---------------- ADMIN: ZOBRAZIŤ AKTUÁLNY PRÍSTUPOVÝ KÓD ----------------
+    if (action === 'getAccessCode') {
+      const meno = (body.meno || '').trim();
+      const heslo = body.heslo || '';
+      if (!isOwner(meno, heslo)) return json(403, { error: 'Nemáš admin práva.' });
+
+      const target = body.target === 'elite' ? 'elite' : 'cennik';
+      const data = await store.get('accessCode_' + target, { type: 'json' });
+      return json(200, { ok: true, code: data ? data.code : null, forWhom: data ? data.forWhom : null });
+    }
+
+    // ---------------- ADMIN: VYGENEROVAŤ NOVÝ PRÍSTUPOVÝ KÓD ----------------
+    if (action === 'generateAccessCode') {
+      const meno = (body.meno || '').trim();
+      const heslo = body.heslo || '';
+      if (!isOwner(meno, heslo)) return json(403, { error: 'Nemáš admin práva.' });
+
+      const target = body.target === 'elite' ? 'elite' : 'cennik';
+      const forWhom = String(body.forWhom || '').trim().slice(0, 120) || 'neuvedené';
+      const code = generateCode();
+      await store.setJSON('accessCode_' + target, { code: code, forWhom: forWhom, createdAt: new Date().toISOString() });
+
+      const codesWebhook = process.env.DISCORD_WEBHOOK_URL_CODES;
+      await sendDiscordSimpleMessage(codesWebhook, {
+        embeds: [{
+          title: 'Nový vstupný kód vygenerovaný (' + (target === 'elite' ? 'Obľúbenci' : 'Cenník') + ')',
+          color: 12609074,
+          fields: [
+            { name: 'Kód', value: '`' + code + '`', inline: true },
+            { name: 'Pre koho', value: forWhom, inline: true },
+            { name: 'Vygeneroval', value: meno, inline: true }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      });
+
+      return json(200, { ok: true, code: code });
+    }
+
+    // ---------------- VEREJNÉ: OVERENIE PRÍSTUPOVÉHO KÓDU (odomknutie shopu) ----------------
+    // Kód je JEDNORAZOVÝ — po úspešnom použití sa okamžite zneplatní.
+    if (action === 'checkAccessCode') {
+      const target = body.target === 'elite' ? 'elite' : 'cennik';
+      const inputCode = (body.code || '').trim().toUpperCase();
+      const data = await store.get('accessCode_' + target, { type: 'json' });
+      const validCode = data ? data.code : null;
+
+      if (!validCode || inputCode === '' || inputCode !== validCode) {
+        return json(401, { error: 'Nesprávny kód.' });
+      }
+
+      // Kód spotrebovaný — zneplatniť ho, nech ho nikto iný nepoužije znova.
+      await store.setJSON('accessCode_' + target, { code: null, usedAt: new Date().toISOString() });
+
+      return json(200, { ok: true });
     }
 
     // ---------------- ADMIN: ZMENA STAVU OBJEDNÁVKY ----------------
@@ -233,6 +313,39 @@ exports.handler = async function (event) {
         return json(404, { error: 'Objednávka nenájdená.' });
       }
       target.orders.splice(body.orderIndex, 1);
+      await saveAccounts(store, accounts);
+      return json(200, { ok: true });
+    }
+
+    // ---------------- ADMIN: HROMADNÉ VYMAZANIE OBJEDNÁVOK ----------------
+    if (action === 'adminBulkDeleteOrders') {
+      const meno = (body.meno || '').trim();
+      const heslo = body.heslo || '';
+      if (!isOwner(meno, heslo)) return json(403, { error: 'Nemáš admin práva.' });
+
+      const items = Array.isArray(body.items) ? body.items : [];
+      if (items.length === 0) return json(400, { error: 'Nič nebolo vybrané.' });
+
+      const accounts = await loadAccounts(store);
+
+      // Zoskup indexy podľa účtu, zoraď zostupne (aby mazanie neposúvalo
+      // ostávajúce indexy pod nohami).
+      const byAccount = {};
+      items.forEach(function (it) {
+        const tKey = normKey(it.meno);
+        if (!byAccount[tKey]) byAccount[tKey] = [];
+        byAccount[tKey].push(Number(it.orderIndex));
+      });
+
+      Object.keys(byAccount).forEach(function (tKey) {
+        const target = accounts[tKey];
+        if (!target || !target.orders) return;
+        const indices = byAccount[tKey].sort(function (a, b) { return b - a; });
+        indices.forEach(function (idx) {
+          if (target.orders[idx]) target.orders.splice(idx, 1);
+        });
+      });
+
       await saveAccounts(store, accounts);
       return json(200, { ok: true });
     }
